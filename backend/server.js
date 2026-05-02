@@ -22,7 +22,14 @@ app.use(express.json());
 const User = require('./models/User');
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/taskflow')
+const dbURI = process.env.MONGO_URI;
+
+if (!dbURI) {
+  console.error('FATAL ERROR: MONGO_URI is not defined.');
+  process.exit(1);
+}
+
+mongoose.connect(dbURI)
   .then(async () => {
     console.log('Connected to MongoDB');
     
