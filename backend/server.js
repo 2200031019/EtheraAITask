@@ -62,7 +62,22 @@ mongoose.connect(dbURI)
   })
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// Routes
+// Health Check & Root Routes
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'TaskFlow API is running 🚀',
+    status: 'OK'
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'UP',
+    timestamp: new Date()
+  });
+});
+
+// API Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
